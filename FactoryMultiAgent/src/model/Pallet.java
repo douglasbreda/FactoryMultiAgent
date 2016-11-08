@@ -13,10 +13,10 @@ import java.util.List;
  * @author dougl
  */
 public class Pallet {
-    
+
     //Lista de peças utilizadas
     private List<Piece> lstPieces = new ArrayList<>();
-    
+
     //Máximo de caixas por pallet
     private int maxBox = 0;
 
@@ -35,6 +35,20 @@ public class Pallet {
     public void setMaxBox(int maxBox) {
         this.maxBox = maxBox;
     }
-    
-    
+
+    /**
+     *
+     * @param pMax - Capacidade máximo do pallet
+     * @param pSize - Define o tamanho das peças do pallet
+     */
+    public Pallet(int pMax, Size pSize) {
+        this.maxBox = pMax;
+        AddListPieces(Size.large);
+    }
+
+    private void AddListPieces(Size pSize) {
+        for (int i = 0; i < getMaxBox(); i++) {
+            lstPieces.add(new Piece(pSize));
+        }
+    }
 }

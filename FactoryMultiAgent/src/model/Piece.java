@@ -10,6 +10,10 @@ public class Piece {
     //Tamanho da peça
     private Size oSize;
 
+    Piece(Size pSize) {
+        this.oSize = pSize;
+    }
+
     public Size getoSize() {
         return oSize;
     }
@@ -17,6 +21,4 @@ public class Piece {
     public void setoSize(Size oSize) {
         this.oSize = oSize;
     }
-    
-    
 }

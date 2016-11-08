@@ -24,6 +24,12 @@ public class Configuration {
     
     //Define a quantidade de caminhões disponíveis
     private int qtdTrucks = 0;
+    
+    //Define o número máximo de pallets que pode ficar acumulado
+    private int numMaxPalletsAc = 0;
+    
+    //Define o número mínimo de pallets acumulado
+    private int numMinPalletsAc = 0;
 
     public int getMinRobots() {
         return minRobots;
