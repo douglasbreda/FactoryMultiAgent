@@ -6,36 +6,37 @@
 package model.agent;
 
 import jade.core.Agent;
+import model.AgentFactory;
 import model.Factory;
 import model.behaviour.supervisor.CallRobot;
 import model.behaviour.supervisor.CallTruck;
-import model.behaviour.supervisor.Controller;
+
 
 /**
  *
  * @author dougl
  */
 public class Supervisor extends Agent{
-    
-    Factory oFactory = new Factory();
 
-    public Supervisor(Factory pFactory) {
-        this.oFactory = pFactory;
-    }
-    
+    private Factory oFactory = null;
+   
      @Override
     protected void setup(){
-         System.out.println("Oi, sou o Supervisor e estou pronto para iniciar a produção!");
+        oFactory = new Factory();
+        oFactory.StartProduction();
+        System.out.println("Oi, sou o Supervisor e estou pronto para iniciar a produção!");
+        CallRobot();
+        //CallTruck();
     }
     
-    //Inicia o comportamento que fica rodando e controlando a fábrica
-    public void StartController(){
-        this.addBehaviour(new Controller(this.oFactory));
+    public void setoFactory(Factory oFactory) {
+        this.oFactory = oFactory;
     }
     
     //Chama os robôs
     public void CallRobot(){
-        this.addBehaviour(new CallRobot());
+        new AgentFactory().CreateAgent("Robô 1", model.agent.Robot.class.getName());
+        //this.addBehaviour(new CallRobot());
     }
     
     //Chama o caminhão

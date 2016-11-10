@@ -5,22 +5,23 @@
  */
 package model.behaviour.robot;
 
-import jade.core.behaviours.Behaviour;
+import jade.core.behaviours.OneShotBehaviour;
 
 /**
- * Quando o robô precisa levar os pallets até o caminhão
+ * Quando o robô se dirige até o caminhão
  * @author dougl
  */
-public class GoTruck extends Behaviour{
+public class GoTruck extends OneShotBehaviour{
 
     @Override
     public void action() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Robô: Estou indo para o caminhão");
     }
 
     @Override
-    public boolean done() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int onEnd() {
+        System.out.println("Robô: Cheguei no caminhão e retornei 1");
+        return 1;
     }
     
 }

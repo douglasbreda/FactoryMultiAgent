@@ -5,13 +5,13 @@
  */
 package model.behaviour.robot;
 
-import jade.core.behaviours.Behaviour;
+import jade.core.behaviours.OneShotBehaviour;
 
 /**
- * Quando o robô descarrega os pallets no caminhão
+ * Quando o robô descarrega no caminhão
  * @author dougl
  */
-public class Uncharge extends Behaviour{
+public class Uncharge extends OneShotBehaviour{
 
     @Override
     public void action() {
@@ -19,8 +19,10 @@ public class Uncharge extends Behaviour{
     }
 
     @Override
-    public boolean done() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int onEnd() {
+        return super.onEnd(); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    
     
 }

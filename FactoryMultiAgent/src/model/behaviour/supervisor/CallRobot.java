@@ -9,6 +9,7 @@ import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.CyclicBehaviour;
 import java.util.Random;
 
+
 /**
  * Quando o supervisor necessita chamar o robô
  * @author dougl
@@ -23,7 +24,8 @@ public class CallRobot extends Behaviour{
    
     @Override
     public boolean done() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Terminei meu trabalho");
+        return true;
     }
 
     

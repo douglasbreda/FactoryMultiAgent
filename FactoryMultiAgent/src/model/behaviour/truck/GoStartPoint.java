@@ -5,13 +5,13 @@
  */
 package model.behaviour.truck;
 
-import jade.core.behaviours.Behaviour;
+import jade.core.behaviours.OneShotBehaviour;
 
 /**
- * Depois da entrega ele volta ao ponto inicial
+ * Classe que muda o estado do caminhão para voltar ao ponto inicial
  * @author dougl
  */
-public class GoStartPoint extends Behaviour{
+public class GoStartPoint extends OneShotBehaviour {
 
     @Override
     public void action() {
@@ -19,8 +19,7 @@ public class GoStartPoint extends Behaviour{
     }
 
     @Override
-    public boolean done() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int onEnd() {
+        return super.onEnd(); //To change body of generated methods, choose Tools | Templates.
     }
-    
 }

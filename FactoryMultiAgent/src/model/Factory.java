@@ -5,6 +5,7 @@
  */
 package model;
 
+import jade.wrapper.AgentController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -14,13 +15,16 @@ import model.agent.Supervisor;
 import model.agent.Truck;
 
 /**
- *
+ * 
  * @author dougl
  */
 public class Factory {
 
     //Classe que contém as configurações para a simulação
     private Configuration oConfig = new Configuration();
+
+    //Classe que cria os agentes
+    private AgentFactory oAgentFactory = new AgentFactory();
     
    //Contém a lista dos robôs disponíveis na fábrica
    private List<Robot> lstRobots = new ArrayList<>();
@@ -105,8 +109,7 @@ public class Factory {
     }
     
     //Inicia a produção da fábrica
-    public void Start(){
-        oSupervisor = new Supervisor(this);
+    public void StartProduction(){
         new Thread(){
 
             @Override
@@ -121,4 +124,5 @@ public class Factory {
             
         }.start();
     }
+
 }

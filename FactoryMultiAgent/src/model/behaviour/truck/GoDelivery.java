@@ -5,13 +5,13 @@
  */
 package model.behaviour.truck;
 
-import jade.core.behaviours.Behaviour;
+import jade.core.behaviours.OneShotBehaviour;
 
 /**
- * Quando o caminhão sai para entrega
+ *
  * @author dougl
  */
-public class GoDelivery extends Behaviour{
+public class GoDelivery extends OneShotBehaviour{
 
     @Override
     public void action() {
@@ -19,8 +19,8 @@ public class GoDelivery extends Behaviour{
     }
 
     @Override
-    public boolean done() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int onEnd() {
+        return super.onEnd(); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

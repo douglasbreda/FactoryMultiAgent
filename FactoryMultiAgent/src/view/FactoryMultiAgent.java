@@ -19,6 +19,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import model.CentralController;
+import model.Factory;
 
 /**
  *
@@ -47,16 +49,18 @@ public class FactoryMultiAgent extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
         
-        jade.core.Runtime runtime = jade.core.Runtime.instance();
-        Profile profile = new ProfileImpl(true);
-        AgentContainer agentcontainer = runtime.createMainContainer(profile);
-
-        try {
-            AgentController agentController = agentcontainer.createNewAgent("Supervisor", model.agent.Supervisor.class.getName(), new Object[]{});
-            agentController.start();
-        } catch (StaleProxyException ex) {
-            Logger.getLogger(FactoryMultiAgent.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        jade.core.Runtime runtime = jade.core.Runtime.instance();
+//        Profile profile = new ProfileImpl(true);
+//        AgentContainer agentcontainer = runtime.createMainContainer(profile);
+//
+//        try {
+//            AgentController agentController = agentcontainer.createNewAgent("Supervisor", model.agent.Supervisor.class.getName(), new Object[]{});
+//            agentController.start();
+//        } catch (StaleProxyException ex) {
+//            Logger.getLogger(FactoryMultiAgent.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+            CentralController oCentral = new CentralController();
+            oCentral.Start();
     }
 
     /**

@@ -5,13 +5,13 @@
  */
 package model.behaviour.truck;
 
-import jade.core.behaviours.Behaviour;
+import jade.core.behaviours.OneShotBehaviour;
 
 /**
- *  Quando o caminhão é chamada para carregar os pallets
+ * Classe que muda o status do caminhão para que ele vá carregar
  * @author dougl
  */
-public class GoCharge extends Behaviour{
+public class GoCharge extends OneShotBehaviour{
 
     @Override
     public void action() {
@@ -19,8 +19,7 @@ public class GoCharge extends Behaviour{
     }
 
     @Override
-    public boolean done() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int onEnd() {
+        return super.onEnd(); //To change body of generated methods, choose Tools | Templates.
     }
-    
 }

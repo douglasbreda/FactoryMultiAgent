@@ -5,22 +5,24 @@
  */
 package model.behaviour.robot;
 
-import jade.core.behaviours.Behaviour;
+import jade.core.behaviours.OneShotBehaviour;
 
 /**
  * Quando o robô volta ao ponto inicial
  * @author dougl
  */
-public class GoStartPoint extends Behaviour {
+public class GoStartPoint extends OneShotBehaviour{
 
     @Override
     public void action() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Robô: Estou voltando ao ponto inicial");
     }
 
     @Override
-    public boolean done() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int onEnd() {
+        System.out.println("Robô: Cheguei no ponto inicial e retornei 1");
+        return 1;
     }
+
     
 }

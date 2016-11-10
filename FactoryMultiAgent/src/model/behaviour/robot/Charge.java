@@ -5,22 +5,24 @@
  */
 package model.behaviour.robot;
 
-import jade.core.behaviours.Behaviour;
+import jade.core.behaviours.OneShotBehaviour;
 
 /**
- * Comportamento chamada quando o robô precisa carregar o pallet
+ * Quando o robô vai carregar
  * @author dougl
  */
-public class Charge extends Behaviour{
+public class Charge extends OneShotBehaviour {
 
     @Override
     public void action() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Sou o robô e estou carregando");
     }
 
     @Override
-    public boolean done() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int onEnd() {
+        System.out.println("Terminei de carregar, retornei 1");
+        return 1;
     }
+    
     
 }
