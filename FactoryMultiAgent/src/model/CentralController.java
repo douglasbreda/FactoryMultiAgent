@@ -22,7 +22,6 @@ public class CentralController {
     
     //Inicia o processo
     public void Start(){
-        
         controller = this.oAgentFactory.CreateAgent("Supervisor", model.agent.Supervisor.class.getName());
     }
 }

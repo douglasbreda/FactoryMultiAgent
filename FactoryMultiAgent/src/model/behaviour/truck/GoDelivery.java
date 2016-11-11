@@ -15,12 +15,12 @@ public class GoDelivery extends OneShotBehaviour{
 
     @Override
     public void action() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Não posso mais carregar, estou saindo para entrega");
     }
 
     @Override
     public int onEnd() {
-        return super.onEnd(); //To change body of generated methods, choose Tools | Templates.
+        return 1;
     }
     
 }

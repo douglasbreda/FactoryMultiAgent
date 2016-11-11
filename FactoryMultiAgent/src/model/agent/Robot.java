@@ -18,14 +18,8 @@ public class Robot extends Agent{
     protected void setup(){
         System.out.println("Oi, sou o robô, estou pronto...");
         RobotBehaviours oRobotBehaviour = new RobotBehaviours();
-        
-        oRobotBehaviour.registerDefaultTransition(MSG_QUEUE_CLASS, MSG_QUEUE_CLASS, null);
-        oRobotBehaviour.registerFirstState(oRobotBehaviour, MSG_QUEUE_CLASS);
-        oRobotBehaviour.registerState(oRobotBehaviour, MSG_QUEUE_CLASS);
-        oRobotBehaviour.registerLastState(oRobotBehaviour, MSG_QUEUE_CLASS);
-        oRobotBehaviour.registerTransition(MSG_QUEUE_CLASS, MSG_QUEUE_CLASS, D_MIN);
-        
-        
+        oRobotBehaviour.StartBehaviours();
+        oRobotBehaviour.SetTransitions();
         this.addBehaviour(oRobotBehaviour);
         
     }

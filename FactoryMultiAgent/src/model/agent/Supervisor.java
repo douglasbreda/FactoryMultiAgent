@@ -26,7 +26,7 @@ public class Supervisor extends Agent{
         oFactory.StartProduction();
         System.out.println("Oi, sou o Supervisor e estou pronto para iniciar a produção!");
         CallRobot();
-        //CallTruck();
+        CallTruck();
     }
     
     public void setoFactory(Factory oFactory) {
@@ -36,11 +36,10 @@ public class Supervisor extends Agent{
     //Chama os robôs
     public void CallRobot(){
         new AgentFactory().CreateAgent("Robô 1", model.agent.Robot.class.getName());
-        //this.addBehaviour(new CallRobot());
     }
     
     //Chama o caminhão
     public void CallTruck(){
-        this.addBehaviour(new CallTruck());
+        new AgentFactory().CreateAgent("Caminhão", model.agent.Truck.class.getName());
     }
 }

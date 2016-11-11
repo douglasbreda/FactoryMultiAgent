@@ -15,11 +15,11 @@ public class GoCharge extends OneShotBehaviour{
 
     @Override
     public void action() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Ok, estou indo até aí para carregar");
     }
 
     @Override
     public int onEnd() {
-        return super.onEnd(); //To change body of generated methods, choose Tools | Templates.
+        return 1;
     }
 }

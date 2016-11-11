@@ -6,7 +6,6 @@
 package model.behaviour.supervisor;
 
 import jade.core.behaviours.Behaviour;
-import jade.core.behaviours.CyclicBehaviour;
 import java.util.Random;
 
 

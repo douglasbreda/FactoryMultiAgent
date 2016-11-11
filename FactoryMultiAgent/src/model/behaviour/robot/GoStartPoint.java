@@ -21,7 +21,7 @@ public class GoStartPoint extends OneShotBehaviour{
     @Override
     public int onEnd() {
         System.out.println("Robô: Cheguei no ponto inicial e retornei 1");
-        return 1;
+        return 0;
     }
 
     

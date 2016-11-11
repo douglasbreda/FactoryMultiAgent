@@ -15,12 +15,13 @@ public class Uncharge extends OneShotBehaviour{
 
     @Override
     public void action() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Estou descarregando no caminhão");
     }
 
     @Override
     public int onEnd() {
-        return super.onEnd(); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("terminei de descarregar");
+        return 1;
     }
     
     

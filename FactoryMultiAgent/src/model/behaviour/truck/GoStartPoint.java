@@ -15,11 +15,11 @@ public class GoStartPoint extends OneShotBehaviour {
 
     @Override
     public void action() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Estou voltando para a garagem");
     }
 
     @Override
     public int onEnd() {
-        return super.onEnd(); //To change body of generated methods, choose Tools | Templates.
+        return 1;
     }
 }

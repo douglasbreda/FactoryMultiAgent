@@ -14,24 +14,17 @@ import jade.core.behaviours.FSMBehaviour;
  */
 public class TruckBehaviours extends FSMBehaviour {
 
-    @Override
-    public void registerFirstState(Behaviour state, String name) {
-        super.registerFirstState(new GoCharge(), "GoCharge"); //Sai do ponto inicial e vai para o local de carga
+    ///Inicia os estados com os comportamentos
+    public void StartBehaviours(){
+        this.registerFirstState(new GoCharge(), "GoCharge"); //Sai do ponto inicial e vai para o local de carga
+        this.registerState(new GoDelivery(), "GoDelivery"); //Depois de carregado sai para entrega
+        this.registerLastState(new GoStartPoint(), "GoStartPoint");//Depois da entrega, volta ao ponto inicial
+        
     }
-
-    @Override
-    public void registerState(Behaviour state, String name) {
-        super.registerState(new GoDelivery(), "GoDelivery"); //Depois de carregado sai para entrega
-        super.registerState(new GoStartPoint(), "GoStartPoint");//Depois da entrega, volta ao ponto inicial
-    }
-
-    @Override
-    public void registerTransition(String s1, String s2, int event) {
+    
+    //Define as transições entre os estados do caminhão
+    public void SetTransitions(){
         super.registerTransition("GoCharge", "GoDelivery", 1); //Passa do estado de carregar para entregar
         super.registerTransition("GoDelivery", "GoStartPoint", 1);//Depois da entrega volta ao ponto inicial
     }
-    
-    
-    
- 
 }
