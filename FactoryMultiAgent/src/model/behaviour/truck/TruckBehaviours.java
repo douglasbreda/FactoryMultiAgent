@@ -5,7 +5,6 @@
  */
 package model.behaviour.truck;
 
-import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.FSMBehaviour;
 
 /**
@@ -16,9 +15,9 @@ public class TruckBehaviours extends FSMBehaviour {
 
     ///Inicia os estados com os comportamentos
     public void StartBehaviours(){
-        this.registerFirstState(new GoCharge(), "GoCharge"); //Sai do ponto inicial e vai para o local de carga
-        this.registerState(new GoDelivery(), "GoDelivery"); //Depois de carregado sai para entrega
-        this.registerLastState(new GoStartPoint(), "GoStartPoint");//Depois da entrega, volta ao ponto inicial
+        this.registerFirstState(new GoCharge(this.getAgent()), "GoCharge"); //Sai do ponto inicial e vai para o local de carga
+        this.registerState(new GoDelivery(this.getAgent()), "GoDelivery"); //Depois de carregado sai para entrega
+        this.registerLastState(new GoStartPoint(this.getAgent()), "GoStartPoint");//Depois da entrega, volta ao ponto inicial
         
     }
     

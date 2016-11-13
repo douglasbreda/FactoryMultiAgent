@@ -16,7 +16,7 @@ public class CentralController {
     private AgentController controller = null;
     private AgentFactory oAgentFactory = null;
     
-    public CentralController() {
+        public CentralController() {
         oAgentFactory = new AgentFactory();
     }
     

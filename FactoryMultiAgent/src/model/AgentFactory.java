@@ -9,6 +9,7 @@ import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.wrapper.AgentContainer;
 import jade.wrapper.AgentController;
+import jade.wrapper.ContainerController;
 import jade.wrapper.StaleProxyException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,22 +24,27 @@ import view.FactoryMultiAgent;
 public class AgentFactory {
 
     private jade.core.Runtime runtime = null;
-    private Profile profile = null;
-    private AgentContainer agentcontainer = null;
+    private ProfileImpl profile = null;
+    private ContainerController agentcontainer = null;
 
     ///Inicia o container
     public AgentFactory() {
         this.runtime = jade.core.Runtime.instance();
-        this.profile = new ProfileImpl(true);
-        this.agentcontainer = runtime.createMainContainer(profile);
+        this.profile = new ProfileImpl();
+        profile.setParameter((ProfileImpl.MAIN_HOST), "localhost");
+        agentcontainer = runtime.createAgentContainer(profile);
+    }
+
+    public AgentController CreateAgent(String pAgentName, String pClassName) {
+        return this.CreateAgent(pAgentName, pClassName, new Object[]{});
     }
 
     //Cria e inicia os agentes de acordo com os parâmetros
-    public AgentController CreateAgent(String pAgentName, String pClassName) {
+    public AgentController CreateAgent(String pAgentName, String pClassName, Object[] pArgs) {
 
         AgentController agentController = null;
         try {
-            agentController = agentcontainer.createNewAgent(pAgentName, pClassName, new Object[]{});
+            agentController = agentcontainer.createNewAgent(pAgentName, pClassName, pArgs);
             agentController.start();
         } catch (StaleProxyException ex) {
             Logger.getLogger(FactoryMultiAgent.class.getName()).log(Level.SEVERE, null, ex);

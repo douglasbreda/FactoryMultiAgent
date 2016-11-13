@@ -18,6 +18,8 @@ public class Truck extends Agent{
   @Override
     protected void setup(){
         oTruckBehaviour = new TruckBehaviours();
+        oTruckBehaviour.StartBehaviours();
+        oTruckBehaviour.SetTransitions();
         this.addBehaviour(oTruckBehaviour);
     } 
 }

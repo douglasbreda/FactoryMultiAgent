@@ -5,7 +5,9 @@
  */
 package model.behaviour.robot;
 
+import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
+import model.MessageFactory;
 
 /**
  * Quando o robô se dirige até o caminhão
@@ -13,14 +15,29 @@ import jade.core.behaviours.OneShotBehaviour;
  */
 public class GoTruck extends OneShotBehaviour{
 
+    MessageFactory oMsgFactory = null;
+    String supervisorName = "";
+    
+    public GoTruck(Agent a) {
+        super(a);
+        oMsgFactory = new MessageFactory();
+    }
+
     @Override
     public void action() {
-        System.out.println("Robô: Estou indo para o caminhão");
+        
+        if (this.getAgent().getArguments().length > 0) {
+            supervisorName = (String) this.getAgent().getArguments()[0];
+        }
+
+        if (!supervisorName.isEmpty()) {
+            myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "IniciandoRobo", "GoTruck"));
+        }
     }
 
     @Override
     public int onEnd() {
-        System.out.println("Robô: Cheguei no caminhão e retornei 1");
+        myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "FinalizandoRobo", "FinishGoTruck"));
         return 1;
     }
     

@@ -5,7 +5,9 @@
  */
 package model.behaviour.truck;
 
+import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
+import model.MessageFactory;
 
 /**
  * Classe que muda o status do caminhão para que ele vá carregar
@@ -13,13 +15,29 @@ import jade.core.behaviours.OneShotBehaviour;
  */
 public class GoCharge extends OneShotBehaviour{
 
+MessageFactory oMsgFactory = null;
+    String supervisorName = "";
+    
+    public GoCharge(Agent a) {
+        super(a);
+        oMsgFactory = new MessageFactory();
+    }
+
     @Override
     public void action() {
-        System.out.println("Ok, estou indo até aí para carregar");
+        
+        if (this.getAgent().getArguments().length > 0) {
+            supervisorName = (String) this.getAgent().getArguments()[0];
+        }
+
+        if (!supervisorName.isEmpty()) {
+            myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "IniciandoTruck", "LoadPoint"));
+        }
     }
 
     @Override
     public int onEnd() {
+        myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "FinalizandoTruck", "FinishLoadPoint"));
         return 1;
     }
 }

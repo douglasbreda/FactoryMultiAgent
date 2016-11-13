@@ -27,13 +27,13 @@ public class Factory {
     private AgentFactory oAgentFactory = new AgentFactory();
     
    //Contém a lista dos robôs disponíveis na fábrica
-   private List<Robot> lstRobots = new ArrayList<>();
+   private List<Integer> lstRobots = new ArrayList<>();
    
    //Supervisor responsável pelo controle da produção
-   private Supervisor supervisor = null;
+   private String supervisorName = "";
    
    //Contém a lista de caminhões disponíveis
-   private List<Truck> lstTrucks = new ArrayList<>();
+   private List<Integer> lstTrucks = new ArrayList<>();
    
    ///Lista de pallets cheios
    private List<Pallet> lstPallet = new ArrayList<>();
@@ -53,27 +53,27 @@ public class Factory {
    //Supervisor responsável pelo controle da fábrica
    private Supervisor oSupervisor = null;
    
-    public List<Robot> getLstRobots() {
+    public List<Integer> getLstRobots() {
         return lstRobots;
     }
 
-    public void setLstRobots(List<Robot> lstRobots) {
+    public void setLstRobots(List<Integer> lstRobots) {
         this.lstRobots = lstRobots;
     }
 
-    public Supervisor getSupervisor() {
-        return supervisor;
+    public String getSupervisor() {
+        return supervisorName;
     }
 
-    public void setSupervisor(Supervisor supervisor) {
-        this.supervisor = supervisor;
+    public void setSupervisor(String supervisor) {
+        this.supervisorName = supervisor;
     }
 
-    public List<Truck> getLstTrucks() {
+    public List<Integer> getLstTrucks() {
         return lstTrucks;
     }
 
-    public void setLstTrucks(List<Truck> lstTrucks) {
+    public void setLstTrucks(List<Integer> lstTrucks) {
         this.lstTrucks = lstTrucks;
     }
 
@@ -95,7 +95,7 @@ public class Factory {
     
     //Verifica o nível de produção para ver se precisa chamar algum robô
     public boolean VerifyNeedRobot(){
-        return lstRobots.size() > 0;
+        return lstRobots.isEmpty();
     }
     
     //Verifica se precisa de caminhões
@@ -104,8 +104,8 @@ public class Factory {
     }
     
     //Adiciona um novo caminhão
-    public void AddTruck(){
-        lstTrucks.add((new Truck()));
+    public void AddTruck(int pValue){
+        lstTrucks.add(pValue);
     }
     
     //Inicia a produção da fábrica
@@ -123,6 +123,11 @@ public class Factory {
             }
             
         }.start();
+    }
+    
+    //Adiciona um robô na lista
+    public void AddRobotsList(int pValue){
+        lstRobots.add(pValue);
     }
 
 }

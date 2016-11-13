@@ -5,7 +5,9 @@
  */
 package model.behaviour.robot;
 
+import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
+import model.MessageFactory;
 
 /**
  * Quando o robô descarrega no caminhão
@@ -13,17 +15,29 @@ import jade.core.behaviours.OneShotBehaviour;
  */
 public class Uncharge extends OneShotBehaviour{
 
+  MessageFactory oMsgFactory = null;
+    String supervisorName = "";
+    
+    public Uncharge(Agent a) {
+        super(a);
+        oMsgFactory = new MessageFactory();
+    }
+
     @Override
     public void action() {
-        System.out.println("Estou descarregando no caminhão");
+        
+        if (this.getAgent().getArguments().length > 0) {
+            supervisorName = (String) this.getAgent().getArguments()[0];
+        }
+
+        if (!supervisorName.isEmpty()) {
+            myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "IniciandoRobo", "Uncharge"));
+        }
     }
 
     @Override
     public int onEnd() {
-        System.out.println("terminei de descarregar");
+        myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "FinalizandoRobo", "FinishUncharge"));
         return 1;
     }
-    
-    
-    
 }

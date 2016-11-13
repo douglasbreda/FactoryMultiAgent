@@ -5,7 +5,7 @@
  */
 package model.behaviour.robot;
 
-import jade.core.behaviours.Behaviour;
+import jade.core.Agent;
 import jade.core.behaviours.FSMBehaviour;
 
 /**
@@ -15,6 +15,10 @@ import jade.core.behaviours.FSMBehaviour;
  */
 public class RobotBehaviours extends FSMBehaviour {
 
+    public RobotBehaviours(Agent a) {
+        super(a);
+    }
+    
     @Override
     public void onStart() {
         System.out.println("Iniciou");
@@ -22,12 +26,12 @@ public class RobotBehaviours extends FSMBehaviour {
 
     //seta os estados
     public void StartBehaviours() {
-        this.registerFirstState(new GoLoadPoint(), "GoLoadPoint"); //Estado inicial que leva o robô até o ponto de carga
-        this.registerState(new Charge(), "Charge");//Quando o robô está carregando
-        this.registerState(new GoTruck(), "GoTruck");//Depois de carregar o robô se dirige até o caminhão
-        this.registerState(new Uncharge(), "Uncharge");//Ao chegar no caminhão 
-        this.registerLastState(new GoStartPoint(), "GoStartPoint");//Volta ao ponto inicial
-        this.registerDefaultTransition("GoLoadPoint", "Charge", new String[]{"GoLoadPoint", "Charge"});
+        this.registerFirstState(new GoLoadPoint(this.getAgent()), "GoLoadPoint"); //Estado inicial que leva o robô até o ponto de carga
+        this.registerState(new Charge(this.getAgent()), "Charge");//Quando o robô está carregando
+        this.registerState(new GoTruck(this.getAgent()), "GoTruck");//Depois de carregar o robô se dirige até o caminhão
+        this.registerState(new Uncharge(this.getAgent()), "Uncharge");//Ao chegar no caminhão 
+        this.registerLastState(new GoStartPoint(this.getAgent()), "GoStartPoint");//Volta ao ponto inicial
+        
     }
     
     //Define as transições
@@ -36,5 +40,6 @@ public class RobotBehaviours extends FSMBehaviour {
         this.registerTransition("Charge", "GoTruck", 1);//Depois de carregar se dirige ao caminhão
         this.registerTransition("GoTruck", "Uncharge", 1);//Ao chegar no caminhão descarrega
         this.registerTransition("Uncharge", "GoStartPoint", 1);//Retorna ao ponto inicial
+        this.registerDefaultTransition("GoLoadPoint", "Charge", new String[]{"GoLoadPoint", "Charge"}); 
     }
 }

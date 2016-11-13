@@ -5,7 +5,10 @@
  */
 package model.behaviour.robot;
 
+import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
+import jade.lang.acl.ACLMessage;
+import model.MessageFactory;
 
 /**
  * Quando o robô vai carregar
@@ -13,14 +16,28 @@ import jade.core.behaviours.OneShotBehaviour;
  */
 public class Charge extends OneShotBehaviour {
 
+    MessageFactory oMsgFactory = null;
+    String supervisorName = "";
+
+    public Charge(Agent a) {
+        super(a);
+        oMsgFactory = new MessageFactory();
+    }
+    
     @Override
     public void action() {
-        System.out.println("Sou o robô e estou carregando");
+        if (this.getAgent().getArguments().length > 0) {
+            supervisorName = (String) this.getAgent().getArguments()[0];
+        }
+
+        if (!supervisorName.isEmpty()) {
+            myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "CarregandoRobo", "Charge"));
+        }
     }
 
     @Override
     public int onEnd() {
-        System.out.println("Terminei de carregar, retornei 1");
+        myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "FinalizandoRobo", "FinishCharge"));
         return 1;
     }
     
