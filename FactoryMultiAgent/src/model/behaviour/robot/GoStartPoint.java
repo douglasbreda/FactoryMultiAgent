@@ -25,21 +25,21 @@ public class GoStartPoint extends OneShotBehaviour{
     
     @Override
     public void action() {
-        System.out.println("Robô: Estou voltando ao ponto inicial");
+//        System.out.println("Robô: Estou voltando ao ponto inicial");
         
         if (this.getAgent().getArguments().length > 0) {
             supervisorName = (String) this.getAgent().getArguments()[0];
         }
 
         if (!supervisorName.isEmpty()) {
-            myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "VoltandoRobo", "GoStartPoint"));
+            myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "Robot", "StartingGoStartPoint"));
         }
     }
 
     @Override
     public int onEnd() {
-        myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "FinalizandoRobo", "FinishGoStartPoint"));
-        return 0;
+        myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "Robot", "FinishGoStartPoint"));
+        return 1;
     }
 
     

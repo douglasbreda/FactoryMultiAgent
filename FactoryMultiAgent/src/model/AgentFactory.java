@@ -5,15 +5,12 @@
  */
 package model;
 
-import jade.core.Profile;
 import jade.core.ProfileImpl;
-import jade.wrapper.AgentContainer;
 import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
 import jade.wrapper.StaleProxyException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.agent.Supervisor;
 import view.FactoryMultiAgent;
 
 /**

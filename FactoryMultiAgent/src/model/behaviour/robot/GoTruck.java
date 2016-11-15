@@ -31,13 +31,13 @@ public class GoTruck extends OneShotBehaviour{
         }
 
         if (!supervisorName.isEmpty()) {
-            myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "IniciandoRobo", "GoTruck"));
+            myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "Robot", "StartingGoTruck"));
         }
     }
 
     @Override
     public int onEnd() {
-        myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "FinalizandoRobo", "FinishGoTruck"));
+        myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "Robot", "FinishGoTruck"));
         return 1;
     }
     

@@ -8,6 +8,7 @@ package model.behaviour.truck;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
 import model.MessageFactory;
+import model.agent.Truck;
 
 /**
  *
@@ -31,13 +32,25 @@ public class GoDelivery extends OneShotBehaviour{
         }
 
         if (!supervisorName.isEmpty()) {
-            myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "IniciandoTruck", "GoDelivery"));
+            myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "Truck", "StartingGoDelivery"));
         }
     }
 
     @Override
     public int onEnd() {
-        myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "FinalizandoTruck", "FinishGoDelivery"));
-        return 1;
+        
+        int iReturn = 0;
+        Truck currentTruck = (Truck) this.getAgent();
+        
+        if(currentTruck.IsFull()){
+            myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "Truck", "FinishGoDelivery"));
+            iReturn = 1;
+        }
+        else{
+            myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "Truck", "WaitingGoDelivery"));
+            iReturn = 0;
+        }
+        
+        return iReturn;
     }
 }

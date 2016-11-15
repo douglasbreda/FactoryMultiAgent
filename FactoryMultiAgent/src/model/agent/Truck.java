@@ -6,20 +6,71 @@
 package model.agent;
 
 import jade.core.Agent;
+import java.util.Random;
 import model.behaviour.truck.TruckBehaviours;
 
 /**
- * 
+ *
  * @author dougl
  */
-public class Truck extends Agent{
+public class Truck extends Agent {
+
+    //Número máximo de caixas
+    private int iMax = 0;    
+    
+    //Contém a quantidade atual de pallets
+    private int currentLength = 0;
+
+    private boolean isOnLocation = false;
+
+    public int getiMax() {
+        return iMax;
+    }
+
+    public boolean IsOnLocation() {
+        return isOnLocation;
+    }
+
+    public void setIsOnLocation(boolean isOnLocation) {
+        this.isOnLocation = isOnLocation;
+    }
+
+    public int getCurrentLength() {
+        return currentLength;
+    }
+
+    public void setCurrentLength(int pCurrentLength) {
+        this.currentLength = pCurrentLength;
+    }
+
+    public void setiMax(int iMax) {
+        this.iMax = iMax;
+    }
     
     TruckBehaviours oTruckBehaviour = null;
-  @Override
-    protected void setup(){
-        oTruckBehaviour = new TruckBehaviours();
+    
+    @Override
+    protected void setup() {
+        
+        this.iMax = new Random(1).nextInt(10);
+        Supervisor supervisorMain = null;
+        try {
+            if (this.getArguments().length > 1) {
+                supervisorMain = (Supervisor) this.getArguments()[1];
+                supervisorMain.AddTruckList(this);
+            }
+        } catch (Exception ex) {
+            //nothing
+        }
+        
+        oTruckBehaviour = new TruckBehaviours(this);
         oTruckBehaviour.StartBehaviours();
         oTruckBehaviour.SetTransitions();
         this.addBehaviour(oTruckBehaviour);
-    } 
+    }
+    
+    //Verifica se o caminhão está pronto para sair para entrega
+    public boolean IsFull(){
+        return currentLength == iMax;
+    }
 }

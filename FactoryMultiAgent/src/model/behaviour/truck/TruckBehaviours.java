@@ -5,6 +5,7 @@
  */
 package model.behaviour.truck;
 
+import jade.core.Agent;
 import jade.core.behaviours.FSMBehaviour;
 
 /**
@@ -13,6 +14,10 @@ import jade.core.behaviours.FSMBehaviour;
  */
 public class TruckBehaviours extends FSMBehaviour {
 
+    public TruckBehaviours(Agent a) {
+        super(a);
+    }
+    
     ///Inicia os estados com os comportamentos
     public void StartBehaviours(){
         this.registerFirstState(new GoCharge(this.getAgent()), "GoCharge"); //Sai do ponto inicial e vai para o local de carga
@@ -23,7 +28,8 @@ public class TruckBehaviours extends FSMBehaviour {
     
     //Define as transições entre os estados do caminhão
     public void SetTransitions(){
-        super.registerTransition("GoCharge", "GoDelivery", 1); //Passa do estado de carregar para entregar
-        super.registerTransition("GoDelivery", "GoStartPoint", 1);//Depois da entrega volta ao ponto inicial
+        this.registerTransition("GoCharge", "GoDelivery", 1); //Passa do estado de carregar para entregar
+        this.registerTransition("GoDelivery", "GoStartPoint", 1);//Depois da entrega volta ao ponto inicial
+        this.registerDefaultTransition("GoDelivery", "GoCharge", new String[]{ "GoDelivery", "GoCharge"}); 
     }
 }

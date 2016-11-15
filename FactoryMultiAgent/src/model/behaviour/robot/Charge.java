@@ -7,7 +7,6 @@ package model.behaviour.robot;
 
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
-import jade.lang.acl.ACLMessage;
 import model.MessageFactory;
 
 /**
@@ -31,13 +30,13 @@ public class Charge extends OneShotBehaviour {
         }
 
         if (!supervisorName.isEmpty()) {
-            myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "CarregandoRobo", "Charge"));
+            myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "Robot", "StartingCharge"));
         }
     }
 
     @Override
     public int onEnd() {
-        myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "FinalizandoRobo", "FinishCharge"));
+        myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "Robot", "FinishCharge"));
         return 1;
     }
     

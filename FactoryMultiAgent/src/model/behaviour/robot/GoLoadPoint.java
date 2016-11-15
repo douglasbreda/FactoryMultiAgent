@@ -5,10 +5,8 @@
  */
 package model.behaviour.robot;
 
-import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
-import jade.lang.acl.ACLMessage;
 import model.MessageFactory;
 
 /**
@@ -34,13 +32,13 @@ public class GoLoadPoint extends OneShotBehaviour  {
         }
 
         if (!supervisorName.isEmpty()) {
-            myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "IniciandoRobo", "LoadPoint"));
+            myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "Robot", "StartingLoadPoint"));
         }
     }
 
     @Override
     public int onEnd() {
-        myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "FinalizandoRobo", "FinishLoadPoint"));
+        myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "Robot", "FinishLoadPoint"));
         return 1;
     }
 

@@ -5,10 +5,7 @@
  */
 package model.agent;
 
-import jade.core.AID;
 import jade.core.Agent;
-import jade.core.behaviours.OneShotBehaviour;
-import jade.lang.acl.ACLMessage;
 import model.behaviour.robot.RobotBehaviours;
 
 /**
@@ -16,30 +13,29 @@ import model.behaviour.robot.RobotBehaviours;
  * @author dougl
  */
 public class Robot extends Agent {
-
+    
+    private Supervisor supervisorMain = null;
+    
     @Override
     protected void setup() {
-        System.out.println("Oi, sou o robô, estou pronto...");
+        
+        try {
+            if (this.getArguments().length > 1) {
+                supervisorMain = (Supervisor) this.getArguments()[1];
+                supervisorMain.AddRobotList(this);
+            }
+        } catch (Exception ex) {
+            //nothing
+        }
+
         RobotBehaviours oRobotBehaviour = new RobotBehaviours(this);
         oRobotBehaviour.StartBehaviours();
         oRobotBehaviour.SetTransitions();
         this.addBehaviour(oRobotBehaviour);
-        
-//        String supervisorName = (String) getArguments()[0];
-//        this.addBehaviour(new OneShotBehaviour(this) {
-//
-//            @Override
-//            public void action() {
-//                if (!supervisorName.isEmpty()) {
-//                    ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-//                    msg.addReceiver(new AID(supervisorName, AID.ISLOCALNAME));
-//                    msg.setLanguage("Portugûes");
-//                    msg.setOntology("Iniciando");
-//                    msg.setContent("LoadPoint");
-//                    myAgent.send(msg);
-//                }
-//            }
-//        });
-
+    }
+    
+    //Verifica se o caminhão já está no local para carga
+    public boolean VerifyExistsTruck(){
+        return this.supervisorMain.getoFactory().getLstTrucks().size() > 0;         
     }
 }

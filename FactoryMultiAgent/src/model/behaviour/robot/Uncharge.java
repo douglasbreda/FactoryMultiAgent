@@ -8,16 +8,18 @@ package model.behaviour.robot;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
 import model.MessageFactory;
+import model.agent.Robot;
 
 /**
  * Quando o robô descarrega no caminhão
+ *
  * @author dougl
  */
-public class Uncharge extends OneShotBehaviour{
+public class Uncharge extends OneShotBehaviour {
 
-  MessageFactory oMsgFactory = null;
+    MessageFactory oMsgFactory = null;
     String supervisorName = "";
-    
+
     public Uncharge(Agent a) {
         super(a);
         oMsgFactory = new MessageFactory();
@@ -25,19 +27,27 @@ public class Uncharge extends OneShotBehaviour{
 
     @Override
     public void action() {
-        
+
         if (this.getAgent().getArguments().length > 0) {
             supervisorName = (String) this.getAgent().getArguments()[0];
         }
 
         if (!supervisorName.isEmpty()) {
-            myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "IniciandoRobo", "Uncharge"));
+            myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "Robot", "StartingUncharge"));
         }
     }
 
     @Override
     public int onEnd() {
-        myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "FinalizandoRobo", "FinishUncharge"));
-        return 1;
+
+        Robot robotMain = (Robot) this.getAgent();
+        int iReturn;
+        if (robotMain.VerifyExistsTruck()) {
+            myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "Robot", "FinishUncharge"));
+            iReturn = 1;
+        } else {
+            iReturn = 0;
+        }
+        return iReturn;
     }
 }

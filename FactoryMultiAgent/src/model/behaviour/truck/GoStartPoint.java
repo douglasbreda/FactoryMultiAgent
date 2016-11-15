@@ -7,6 +7,8 @@ package model.behaviour.truck;
 
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.MessageFactory;
 
 /**
@@ -31,13 +33,18 @@ public class GoStartPoint extends OneShotBehaviour {
         }
 
         if (!supervisorName.isEmpty()) {
-            myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "Iniciando", "GoStartPoint"));
+            myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "Truck", "StartingGoStartPoint"));
         }
     }
 
     @Override
     public int onEnd() {
-        myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "FinalizandoTruck", "FinishGoStartPoint"));
+        try {
+            Thread.sleep(7000);//leva sete segundos para voltar da entrega
+            myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "Truck", "FinishGoStartPoint"));
+        } catch (InterruptedException ex) {
+            Logger.getLogger(GoCharge.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return 1;
     }
 }

@@ -5,7 +5,6 @@
  */
 package model;
 
-import jade.wrapper.AgentController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -27,13 +26,17 @@ public class Factory {
     private AgentFactory oAgentFactory = new AgentFactory();
     
    //Contém a lista dos robôs disponíveis na fábrica
-   private List<Integer> lstRobots = new ArrayList<>();
+   private List<Robot> lstRobots = new ArrayList<>();
+   
+   private int iNumRobots = 0;
    
    //Supervisor responsável pelo controle da produção
    private String supervisorName = "";
    
    //Contém a lista de caminhões disponíveis
-   private List<Integer> lstTrucks = new ArrayList<>();
+   private List<Truck> lstTrucks = new ArrayList<>();
+   
+   private int iNumTruck = 0;
    
    ///Lista de pallets cheios
    private List<Pallet> lstPallet = new ArrayList<>();
@@ -53,11 +56,27 @@ public class Factory {
    //Supervisor responsável pelo controle da fábrica
    private Supervisor oSupervisor = null;
    
-    public List<Integer> getLstRobots() {
+    public List<Robot> getLstRobots() {
         return lstRobots;
     }
 
-    public void setLstRobots(List<Integer> lstRobots) {
+    public int getiNumRobots() {
+        return iNumRobots;
+    }
+
+    public void setiNumRobots(int iNumRobots) {
+        this.iNumRobots = iNumRobots;
+    }
+
+    public int getiNumTruck() {
+        return iNumTruck;
+    }
+
+    public void setiNumTruck(int iNumTruck) {
+        this.iNumTruck = iNumTruck;
+    }
+
+    public void setLstRobots(List<Robot> lstRobots) {
         this.lstRobots = lstRobots;
     }
 
@@ -69,11 +88,11 @@ public class Factory {
         this.supervisorName = supervisor;
     }
 
-    public List<Integer> getLstTrucks() {
+    public List<Truck> getLstTrucks() {
         return lstTrucks;
     }
 
-    public void setLstTrucks(List<Integer> lstTrucks) {
+    public void setLstTrucks(List<Truck> lstTrucks) {
         this.lstTrucks = lstTrucks;
     }
 
@@ -95,17 +114,17 @@ public class Factory {
     
     //Verifica o nível de produção para ver se precisa chamar algum robô
     public boolean VerifyNeedRobot(){
-        return lstRobots.isEmpty();
+        return !lstPallet.isEmpty() && (lstPallet.size() > lstRobots.size());
     }
     
     //Verifica se precisa de caminhões
     public boolean VerifyNeedTrucks(){
-        return lstTrucks.isEmpty();
+        return lstTrucks.isEmpty() && !lstRobots.isEmpty();
     }
     
     //Adiciona um novo caminhão
-    public void AddTruck(int pValue){
-        lstTrucks.add(pValue);
+    public void AddTruck(Truck pTruck){
+        lstTrucks.add(pTruck);
     }
     
     //Inicia a produção da fábrica
@@ -124,10 +143,41 @@ public class Factory {
             
         }.start();
     }
+
+    public List<Pallet> getLstPallet() {
+        return lstPallet;
+    }
     
     //Adiciona um robô na lista
-    public void AddRobotsList(int pValue){
-        lstRobots.add(pValue);
+    public void AddRobotsList(Robot pRobot){
+        lstRobots.add(pRobot);
     }
-
+    
+    //Remove um pallet para indicar que foi carregado no caminhão
+    public void RemoveListPallet(){
+        if(!lstPallet.isEmpty())
+            lstPallet.remove(0);
+    }
+    
+    //Remove um robô da lista quando ele volta para o ponto inicial
+    public void RemoveListRobot(){
+        if(lstRobots.isEmpty())
+            lstRobots.remove(0);
+    }
+    
+    //Remove um caminhão da lista quando ele sai para entrega
+    public void RemoveListTruck(){
+        if(!lstTrucks.isEmpty())
+            lstTrucks.remove(0);
+    }
+    
+    ///Adiciona um pallet dentro do caminhão
+    public void AddPalletToTruck(){
+        lstTrucks.stream().findFirst().get().setCurrentLength(lstTrucks.stream().findFirst().get().getCurrentLength() + 1);
+    }
+    
+    //Habilita o caminhão a iniciar a carregar
+    public void SetAbleToCharge(){
+        lstTrucks.stream().findFirst().get().setIsOnLocation(true);
+    }
 }

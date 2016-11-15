@@ -40,6 +40,8 @@ public class RobotBehaviours extends FSMBehaviour {
         this.registerTransition("Charge", "GoTruck", 1);//Depois de carregar se dirige ao caminhão
         this.registerTransition("GoTruck", "Uncharge", 1);//Ao chegar no caminhão descarrega
         this.registerTransition("Uncharge", "GoStartPoint", 1);//Retorna ao ponto inicial
+        this.registerTransition("Uncharge", "Uncharge", 0);//Retorna ao ponto inicial
         this.registerDefaultTransition("GoLoadPoint", "Charge", new String[]{"GoLoadPoint", "Charge"}); 
+        
     }
 }
