@@ -15,13 +15,13 @@ public class CentralController {
 
     private AgentController controller = null;
     private AgentFactory oAgentFactory = null;
-    
-        public CentralController() {
+
+    public CentralController() {
         oAgentFactory = new AgentFactory();
     }
-    
+
     //Inicia o processo
-    public void Start(){
+    public void Start() {
         controller = this.oAgentFactory.CreateAgent("Supervisor", model.agent.Supervisor.class.getName());
     }
 }

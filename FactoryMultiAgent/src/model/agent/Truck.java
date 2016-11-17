@@ -6,6 +6,8 @@
 package model.agent;
 
 import jade.core.Agent;
+import jade.domain.DFService;
+import jade.domain.FIPAException;
 import java.util.Random;
 import model.behaviour.truck.TruckBehaviours;
 
@@ -15,6 +17,28 @@ import model.behaviour.truck.TruckBehaviours;
  */
 public class Truck extends Agent {
 
+    @Override
+    protected void setup() {
+        this.iMax = new Random(1).nextInt(10);
+        Supervisor supervisorMain = null;
+        try {
+            if (this.getArguments().length > 1) {
+                supervisorMain = (Supervisor) this.getArguments()[1];
+                supervisorMain.AddTruckList(this);
+            }
+        } catch (Exception ex) {
+            //nothing
+        }
+        
+        oTruckBehaviour = new TruckBehaviours(this);
+        oTruckBehaviour.StartBehaviours();
+        oTruckBehaviour.SetTransitions();
+        this.addBehaviour(oTruckBehaviour);
+    }
+
+    
+    
+    
     //Número máximo de caixas
     private int iMax = 0;    
     
@@ -39,6 +63,16 @@ public class Truck extends Agent {
         return currentLength;
     }
 
+    @Override
+    protected void takeDown() {
+        try{
+            DFService.deregister(this);
+        }catch(FIPAException ex){
+            
+        }
+    }
+    
+
     public void setCurrentLength(int pCurrentLength) {
         this.currentLength = pCurrentLength;
     }
@@ -48,26 +82,6 @@ public class Truck extends Agent {
     }
     
     TruckBehaviours oTruckBehaviour = null;
-    
-    @Override
-    protected void setup() {
-        
-        this.iMax = new Random(1).nextInt(10);
-        Supervisor supervisorMain = null;
-        try {
-            if (this.getArguments().length > 1) {
-                supervisorMain = (Supervisor) this.getArguments()[1];
-                supervisorMain.AddTruckList(this);
-            }
-        } catch (Exception ex) {
-            //nothing
-        }
-        
-        oTruckBehaviour = new TruckBehaviours(this);
-        oTruckBehaviour.StartBehaviours();
-        oTruckBehaviour.SetTransitions();
-        this.addBehaviour(oTruckBehaviour);
-    }
     
     //Verifica se o caminhão está pronto para sair para entrega
     public boolean IsFull(){

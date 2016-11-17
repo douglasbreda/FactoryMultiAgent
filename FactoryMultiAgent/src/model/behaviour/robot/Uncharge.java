@@ -42,7 +42,7 @@ public class Uncharge extends OneShotBehaviour {
 
         Robot robotMain = (Robot) this.getAgent();
         int iReturn;
-        if (robotMain.VerifyExistsTruck()) {
+        if (robotMain.VerifyExistsTruck() && !robotMain.VerifyTruckIsFull()) {
             myAgent.send(oMsgFactory.CreateNewMessage(supervisorName, "Robot", "FinishUncharge"));
             iReturn = 1;
         } else {

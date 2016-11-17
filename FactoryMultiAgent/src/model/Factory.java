@@ -5,16 +5,20 @@
  */
 package model;
 
+import application.Main;
+import static java.lang.Thread.sleep;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import model.agent.Robot;
 import model.agent.Supervisor;
 import model.agent.Truck;
+import view.FactoryMultiAgent;
 
 /**
- * 
+ *
  * @author dougl
  */
 public class Factory {
@@ -24,38 +28,38 @@ public class Factory {
 
     //Classe que cria os agentes
     private AgentFactory oAgentFactory = new AgentFactory();
-    
-   //Contém a lista dos robôs disponíveis na fábrica
-   private List<Robot> lstRobots = new ArrayList<>();
-   
-   private int iNumRobots = 0;
-   
-   //Supervisor responsável pelo controle da produção
-   private String supervisorName = "";
-   
-   //Contém a lista de caminhões disponíveis
-   private List<Truck> lstTrucks = new ArrayList<>();
-   
-   private int iNumTruck = 0;
-   
-   ///Lista de pallets cheios
-   private List<Pallet> lstPallet = new ArrayList<>();
-   
-   //Meta de pallets por dia (Ver se é isso mesmo)
-   private int dailyGoal = 0;
 
-   //Quantida de produção por hora
-   private int hourlyProduction = 0;
-   
-   //Número de pallets acumulado
-   private int numPalletsAccumulated = 0;
-   
-   //Total acumulado de produção do dia
-   private int totalDailyProduction = 0;
-   
-   //Supervisor responsável pelo controle da fábrica
-   private Supervisor oSupervisor = null;
-   
+    //Contém a lista dos robôs disponíveis na fábrica
+    private List<Robot> lstRobots = new ArrayList<>();
+
+    private int iNumRobots = 0;
+
+    //Supervisor responsável pelo controle da produção
+    private String supervisorName = "";
+
+    //Contém a lista de caminhões disponíveis
+    private List<Truck> lstTrucks = new ArrayList<>();
+
+    private int iNumTruck = 0;
+
+    ///Lista de pallets cheios
+    private List<Pallet> lstPallet = new ArrayList<>();
+
+    //Meta de pallets por dia (Ver se é isso mesmo)
+    private int dailyGoal = 0;
+
+    //Quantida de produção por hora
+    private int hourlyProduction = 0;
+
+    //Número de pallets acumulado
+    private int numPalletsAccumulated = 0;
+
+    //Total acumulado de produção do dia
+    private int totalDailyProduction = 0;
+
+    //Supervisor responsável pelo controle da fábrica
+    private Supervisor oSupervisor = null;
+
     public List<Robot> getLstRobots() {
         return lstRobots;
     }
@@ -111,73 +115,89 @@ public class Factory {
     public void setHourlyProduction(int hourlyProduction) {
         this.hourlyProduction = hourlyProduction;
     }
-    
+
     //Verifica o nível de produção para ver se precisa chamar algum robô
-    public boolean VerifyNeedRobot(){
+    public boolean VerifyNeedRobot() {
         return !lstPallet.isEmpty() && (lstPallet.size() > lstRobots.size());
     }
-    
+
     //Verifica se precisa de caminhões
-    public boolean VerifyNeedTrucks(){
+    public boolean VerifyNeedTrucks() {
         return lstTrucks.isEmpty() && !lstRobots.isEmpty();
     }
-    
+
     //Adiciona um novo caminhão
-    public void AddTruck(Truck pTruck){
+    public void AddTruck(Truck pTruck) {
         lstTrucks.add(pTruck);
+        Main.addTrucks();
     }
-    
+
     //Inicia a produção da fábrica
-    public void StartProduction(){
-        new Thread(){
+    public void StartProduction() {
+        new Thread() {
 
             @Override
             public void run() {
-                try {
-                    sleep(10000);
-                    lstPallet.add(new Pallet(oConfig.getMaxPallets(), Size.large));//ver de onde vem o tamanho???
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Factory.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                CreatePallet();
             }
-            
+
         }.start();
+    }
+
+    //Cria um novo pallet
+    public void CreatePallet() {
+        while (true) {
+            try {
+                sleep(1000);
+                //JOptionPane.showMessageDialog(null, "Criou pallet");
+                lstPallet.add(new Pallet(oConfig.getMaxPallets(), Size.large));//ver de onde vem o tamanho???
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Factory.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     public List<Pallet> getLstPallet() {
         return lstPallet;
     }
-    
+
     //Adiciona um robô na lista
-    public void AddRobotsList(Robot pRobot){
+    public void AddRobotsList(Robot pRobot) {
         lstRobots.add(pRobot);
+        Main.addRobots();
     }
-    
+
     //Remove um pallet para indicar que foi carregado no caminhão
-    public void RemoveListPallet(){
-        if(!lstPallet.isEmpty())
+    public void RemoveListPallet() {
+        if (!lstPallet.isEmpty()) {
             lstPallet.remove(0);
+        }
     }
-    
+
     //Remove um robô da lista quando ele volta para o ponto inicial
-    public void RemoveListRobot(){
-        if(lstRobots.isEmpty())
+    public void RemoveListRobot() {
+        if (!lstRobots.isEmpty()) {
+            lstRobots.get(0).doDelete();
             lstRobots.remove(0);
+        }
     }
-    
+
     //Remove um caminhão da lista quando ele sai para entrega
-    public void RemoveListTruck(){
-        if(!lstTrucks.isEmpty())
+    public void RemoveListTruck() {
+        if (!lstTrucks.isEmpty()) {
+            lstTrucks.get(0).doDelete();
             lstTrucks.remove(0);
+            
+        }
     }
-    
+
     ///Adiciona um pallet dentro do caminhão
-    public void AddPalletToTruck(){
+    public void AddPalletToTruck() {
         lstTrucks.stream().findFirst().get().setCurrentLength(lstTrucks.stream().findFirst().get().getCurrentLength() + 1);
     }
-    
+
     //Habilita o caminhão a iniciar a carregar
-    public void SetAbleToCharge(){
+    public void SetAbleToCharge() {
         lstTrucks.stream().findFirst().get().setIsOnLocation(true);
     }
 }

@@ -6,6 +6,8 @@
 package model.agent;
 
 import jade.core.Agent;
+import jade.domain.DFService;
+import jade.domain.FIPAException;
 import model.behaviour.robot.RobotBehaviours;
 
 /**
@@ -38,4 +40,20 @@ public class Robot extends Agent {
     public boolean VerifyExistsTruck(){
         return this.supervisorMain.getoFactory().getLstTrucks().size() > 0;         
     }
+    
+    //Verifica se o caminhão já não está cheio
+    public boolean VerifyTruckIsFull(){
+        return this.supervisorMain.getoFactory().getLstTrucks().stream().findFirst().get().IsFull();
+    }
+
+    @Override
+    protected void takeDown() {
+        try{
+            DFService.deregister(this);
+        }catch(FIPAException ex){
+            
+        }
+    }
+    
+    
 }

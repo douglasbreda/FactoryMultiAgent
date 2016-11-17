@@ -30,6 +30,6 @@ public class TruckBehaviours extends FSMBehaviour {
     public void SetTransitions(){
         this.registerTransition("GoCharge", "GoDelivery", 1); //Passa do estado de carregar para entregar
         this.registerTransition("GoDelivery", "GoStartPoint", 1);//Depois da entrega volta ao ponto inicial
-        this.registerDefaultTransition("GoDelivery", "GoCharge", new String[]{ "GoDelivery", "GoCharge"}); 
+        this.registerDefaultTransition("GoDelivery", "GoDelivery", new String[]{ "GoDelivery", "GoDelivery"}); 
     }
 }

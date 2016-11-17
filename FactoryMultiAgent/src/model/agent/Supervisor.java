@@ -22,7 +22,9 @@ public class Supervisor extends Agent {
     private static int iNumRobot = 0;
     private static int iNumTruck = 0;
     private AgentFactory oAgentFactory = null;
-
+    //Necessário pois estava criando criando caminhões antes de adicionar a lista, o que causava erros
+    private boolean bStartingTruck = false;
+    
     @Override
     protected void setup() {
         oAgentFactory = new AgentFactory();
@@ -46,31 +48,34 @@ public class Supervisor extends Agent {
                         case "Robot":
                             if (content.contains("Starting")) {
                                 if (content.equalsIgnoreCase("StartingLoadPoint")) {
-                                    System.out.println("O " + msg.getSender().getLocalName() + " está indo ao ponto de carga.");
+                                    //System.out.println("O " + msg.getSender().getLocalName() + " está indo ao ponto de carga.");
                                 } else if (content.equalsIgnoreCase("StartingCharge")) {
-                                    System.out.println("O  " + msg.getSender().getLocalName() + " está carregando.");
+                                    //System.out.println("O  " + msg.getSender().getLocalName() + " está carregando.");
                                 } else if (content.equalsIgnoreCase("StartingGoTruck")) {
-                                    System.out.println("O " + msg.getSender().getLocalName() + " está indo até o caminhão.");
+                                    //System.out.println("O " + msg.getSender().getLocalName() + " está indo até o caminhão.");
                                 } else if (content.equalsIgnoreCase("StartingUncharge")) {
-                                    System.out.println("O " + msg.getSender().getLocalName() + " está indo descarregar.");
+                                    //System.out.println("O " + msg.getSender().getLocalName() + " está indo descarregar.");
                                 } else if (content.equalsIgnoreCase("StartingGoStartPoint")) {
-                                    System.out.println("O " + msg.getSender().getLocalName() + " está voltando a posição inicial.");
+                                    //System.out.println("O " + msg.getSender().getLocalName() + " está voltando a posição inicial.");
                                 } else {
                                     block();
                                 }
                             } else {
                                 if (content.equalsIgnoreCase("FinishLoadPoint")) {
-                                    System.out.println("O " + msg.getSender().getLocalName() + " chegou ao local de carga.");
+                                    //System.out.println("O " + msg.getSender().getLocalName() + " chegou ao local de carga.");
                                 } else if (content.equalsIgnoreCase("FinishCharge")) {
-                                    System.out.println("O  " + msg.getSender().getLocalName() + " finalizou o carregamento.");
+                                    //System.out.println("O  " + msg.getSender().getLocalName() + " finalizou o carregamento.");
+                                    System.out.println("Removeu pallet");
                                     oFactory.RemoveListPallet();
                                 } else if (content.equalsIgnoreCase("FinishGoTruck")) {
                                     System.out.println("O " + msg.getSender().getLocalName() + " chegou no caminhão.");
                                 } else if (content.equalsIgnoreCase("FinishUncharge")) {
-                                    System.out.println("O " + msg.getSender().getLocalName() + " terminou de descarregar no caminhão.");
+                                    //System.out.println("O " + msg.getSender().getLocalName() + " terminou de descarregar no caminhão.");
+                                    System.out.println("Adicionou pallet no caminhão");
                                     oFactory.AddPalletToTruck();
                                 } else if (content.equalsIgnoreCase("FinishGoStartPoint")) {
-                                    System.out.println("O " + msg.getSender().getLocalName() + " voltou ao ponto inicial.");
+                                    //System.out.println("O " + msg.getSender().getLocalName() + " voltou ao ponto inicial.");
+                                    System.out.println("Removeu um robô");
                                     oFactory.RemoveListRobot();
                                 } else {
                                     block();
@@ -80,29 +85,30 @@ public class Supervisor extends Agent {
                         case "Truck":
                             if (content.contains("Starting")) {
                                 if (content.equalsIgnoreCase("StartingGoCharge")) {
-                                    System.out.println("O " + msg.getSender().getLocalName() + " está indo ao ponto de carga.");
+                                    //System.out.println("O " + msg.getSender().getLocalName() + " está indo ao ponto de carga.");
                                 } else if (content.equalsIgnoreCase("StartingGoDelivery")) {
-                                    System.out.println("O " + msg.getSender().getLocalName() + " está saindo para descarregar.");
+                                    //System.out.println("O " + msg.getSender().getLocalName() + " está saindo para descarregar.");
                                 } else if (content.equalsIgnoreCase("StartingGoStartPoint")) {
-                                    System.out.println("O " + msg.getSender().getLocalName() + " está voltando a posição inicial.");
+                                    //System.out.println("O " + msg.getSender().getLocalName() + " está voltando a posição inicial.");
                                 } else {
                                     block();
                                 }
                             } else if(content.contains("Finish")){
                                 if (content.equalsIgnoreCase("FinishGoCharge")) {
-                                    System.out.println("O " + msg.getSender().getLocalName() + " chegou ao local de carga.");
+                                    //System.out.println("O " + msg.getSender().getLocalName() + " chegou ao local de carga.");
                                     oFactory.SetAbleToCharge();
                                 } else if (content.equalsIgnoreCase("FinishGoDelivery")) {
-                                    System.out.println("O " + msg.getSender().getLocalName() + " chegou no local de entrega.");
+                                    //System.out.println("O " + msg.getSender().getLocalName() + " chegou no local de entrega.");
+                                    System.out.println("Removeu um caminhão");
+                                    oFactory.RemoveListTruck();
                                 } else if (content.equalsIgnoreCase("FinishGoStartPoint")) {
                                     System.out.println("O " + msg.getSender().getLocalName() + " chegou na garagem.");
-                                    oFactory.RemoveListTruck();
                                 } else {
                                     block();
                                 }
                             }else{
                                 if(content.equalsIgnoreCase("WaitingGoDelivery")){
-                                    System.out.println("O " + msg.getSender().getLocalName() + " está aguardando até ser carregado totalmente.");
+                                    //System.out.println("O " + msg.getSender().getLocalName() + " está aguardando até ser carregado totalmente.");
                                 }
                             }
                             break;
@@ -113,7 +119,7 @@ public class Supervisor extends Agent {
                     CallRobot();
                 }
 
-                if (oFactory.VerifyNeedTrucks()) {
+                if (oFactory.VerifyNeedTrucks() && !bStartingTruck) {
                     CallTruck();
                 }
 
@@ -136,6 +142,7 @@ public class Supervisor extends Agent {
 
     //Chama o caminhão
     public void CallTruck() {
+        bStartingTruck = true;
         this.oAgentFactory.CreateAgent("Caminhão " + ++iNumTruck, model.agent.Truck.class.getName(), new Object[]{oFactory.getSupervisor(), this});
     }
 
@@ -147,5 +154,6 @@ public class Supervisor extends Agent {
     //Adiciona um caminhão a lista da fábrica
     public void AddTruckList(Truck pTruck) {
         this.oFactory.AddTruck(pTruck);
+        bStartingTruck = false;
     }
 }

@@ -5,62 +5,46 @@
  */
 package view;
 
-import jade.core.Profile;
-import jade.core.ProfileImpl;
-import jade.wrapper.AgentContainer;
-import jade.wrapper.AgentController;
-import jade.wrapper.StaleProxyException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import model.CentralController;
-import model.Factory;
 
 /**
  *
  * @author dougl
  */
 public class FactoryMultiAgent extends Application {
-    
+
     @Override
-    public void start(Stage primaryStage) {
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
-            }
-        });
-        
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        
-        Scene scene = new Scene(root, 300, 250);
-        
-        primaryStage.setTitle("Hello World!");
+    public void start(Stage primaryStage) throws IOException {
+
+        Parent parent = FXMLLoader.load(getClass().getResource("main.fxml"));
+        Scene scene = new Scene(parent);
         primaryStage.setScene(scene);
+        primaryStage.setTitle("Factory MultiAgents");
         primaryStage.show();
+
         
-//        jade.core.Runtime runtime = jade.core.Runtime.instance();
-//        Profile profile = new ProfileImpl(true);
-//        AgentContainer agentcontainer = runtime.createMainContainer(profile);
-//
-//        try {
-//            AgentController agentController = agentcontainer.createNewAgent("Supervisor", model.agent.Supervisor.class.getName(), new Object[]{});
-//            agentController.start();
-//        } catch (StaleProxyException ex) {
-//            Logger.getLogger(FactoryMultiAgent.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-            CentralController oCentral = new CentralController();
-            oCentral.Start();
+        CentralController oCentral = new CentralController();
+        oCentral.Start();
+    }
+    
+    private class MoveTruckEventHandler implements EventHandler<ActionEvent>{
+
+        @Override
+        public void handle(ActionEvent event) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+        
     }
 
     /**
@@ -69,5 +53,5 @@ public class FactoryMultiAgent extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }

@@ -26,6 +26,8 @@ public class AgentFactory {
 
     ///Inicia o container
     public AgentFactory() {
+        //String[] parametros = {"-gui"/*, "-local-host", "127.0.0.1"*/};
+        //jade.Boot.main(parametros);
         this.runtime = jade.core.Runtime.instance();
         this.profile = new ProfileImpl();
         profile.setParameter((ProfileImpl.MAIN_HOST), "localhost");
